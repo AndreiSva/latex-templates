@@ -1,0 +1,93 @@
+\documentclass[12pt]{article}
+\usepackage[left=1in, right=1in, top=0.5in, bottom=1in, headheight=0in, headsep=0in]{geometry}
+\usepackage[american]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage{setspace}
+\usepackage[maxcitenames=2, maxbibnames=2, backend=biber, style=mla, dashed=false, hyperref=false]{biblatex}
+\usepackage{fancyhdr}
+\usepackage{datetime}
+\usepackage{etoolbox}
+\usepackage[none]{hyphenat}
+\usepackage{titlesec}
+\usepackage{csquotes}
+
+\newcommand{\authorfirstname}{Andrei}
+\newcommand{\authorlastname}{Sova}
+\newcommand{\authorprof}{Dr. Andrew Connolly}
+\newcommand{\authorclass}{WORDS 150B 516 2024S1}
+
+\addbibresource{bibliography.bib}
+\newcounter{citnum}
+\AtBeginEnvironment{thebibliography}{\setcounter{citnum}{0}}
+\AtEveryCitekey{\stepcounter{citnum}}
+
+\titleformat*{\section}{\normalfont\normalsize\scshape}
+
+% Here we define a \suppauth command, which can be used to disable showing the
+% author in the next citation
+\makeatletter
+\newcommand{\int@suppauth}{%
+	\def\ifciteibid{\@secondoftwo}%
+	\renewbibmacro*{cite:name}{}%
+	\renewbibmacro*{cite:idem}{}%
+	\renewbibmacro*{author}{}%
+	\renewbibmacro*{editor+others}{}%
+	\renewbibmacro*{translator+others}{}}
+\newcommand{\suppauth}{\AtNextCite{\int@suppauth}}
+\makeatother
+
+\newdateformat{mladate}{\THEDAY\ \monthname[\THEMONTH]\ \THEYEAR}
+\linespread{2}
+
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{pagenum}{\fancyhf{}\fancyhead[R]{\doublespacing \authorlastname{} \thepage\\}}
+\pagestyle{pagenum}
+\setlength{\headheight}{39.33267pt}
+
+\raggedright
+\setlength{\parindent}{0.5in}
+\begin{document}
+
+\noindent \authorfirstname{} \authorlastname{} \\
+\noindent \authorprof{} \\
+\noindent \authorclass{} \\
+\noindent \mladate\today
+
+\centerline{Title} 
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section*{Body 1}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section*{Body 2} 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section*{Body 3}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section*{Conclusion}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\AtEndDocument{
+    % Work Cited page
+	\newcommand{\printrefsmla}{
+        \newpage
+        \ifnum\value{citnum}>1
+            \centerline{Works Cited}
+        \else
+            \centerline{Work Cited}
+        \fi
+
+		\vspace*{-0.5\baselineskip} % Adds space before the bibliography to avoid overlap with the header
+        \printbibliography[heading=none]
+	}
+    \ifnum\value{citnum}>0
+		\printrefsmla
+	\fi
+}
+
+\end{document}
+
